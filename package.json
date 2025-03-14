@@ -1,0 +1,25 @@
+{
+  "name": "powerrings",
+  "version": "1.0.0",
+  "description": "Iniciando projeto",
+  "main": "index.js",
+  "scripts": {
+    "dev": "tsx watch src/http/server.ts"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/VitalMatheus/PowerRings.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/VitalMatheus/PowerRings/issues"
+  },
+  "homepage": "https://github.com/VitalMatheus/PowerRings#readme",
+  "devDependencies": {
+    "@types/node": "^22.13.10",
+    "tsx": "^4.19.3",
+    "typescript": "^5.8.2"
+  }
+}
