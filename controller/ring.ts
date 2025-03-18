@@ -90,3 +90,21 @@ export const updateRing = async (req: Request, res: Response): Promise<any> => {
     return res.status(500).json({ error: 'Não foi possível editar as informações do anel'})
   }
 }
+
+export const deleteRing = async (req: Request, res: Response): Promise<any> => {
+  try {
+    const { id } = req.params;
+  
+    const ring = await Ring.findByPk(id);
+
+    if (!ring) {
+      return res.status(404).json({ error: 'Anel não encontrado' });
+    }
+    await ring.destroy();
+    
+    return res.status(204).send();
+  } catch (error) {
+    return res.status(500).json({ error: 'Não foi possível deletar o anel' });
+  }
+
+}
