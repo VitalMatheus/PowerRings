@@ -23,7 +23,7 @@ module.exports = sequelize.define('Rings', {
     type: Sequelize.STRING
   },
   forgedBy: {
-    type: Sequelize.STRING
+    type: Sequelize.ENUM('elfos', 'anões', 'homens', 'sauron')
   },
   image: {
     type: Sequelize.STRING
