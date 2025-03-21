@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import { RingData } from '../types/ring';
+import { RingData } from '../../types/ring';
 
 const Ring = require('../models/ring.js');
 
