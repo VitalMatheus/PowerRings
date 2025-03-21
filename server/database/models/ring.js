@@ -4,7 +4,7 @@ const Sequelize = require('sequelize');
 const {
   Model
 } = require('sequelize');
-const sequelize = require('../config/database');
+const sequelize = require('../../config/database');
 
 module.exports = sequelize.define('Rings', {
   id: {
