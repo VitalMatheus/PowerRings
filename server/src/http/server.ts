@@ -2,7 +2,7 @@ import express from 'express';
 import cors from 'cors';
 import 'dotenv/config';
 
-import { listRings, createRing, updateRing, deleteRing } from '../../database/controller/ring';
+import { listRings, createRing, updateRing, deleteRing } from '@controllers/ring';
 
 const app = express();
 app.use(cors());

@@ -19,7 +19,7 @@ module.exports = {
         type: Sequelize.STRING
       },
       forgedBy: {
-        type: Sequelize.STRING
+        type: Sequelize.ENUM('homens', 'elfos', 'anões', 'sauron'),
       },
       image: {
         type: Sequelize.STRING

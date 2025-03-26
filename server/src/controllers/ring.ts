@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
 import { RingData } from '../../types/ring';
 
-const Ring = require('../models/ring.js');
+const Ring = require('../../database/models/ring.js');
 
 const validateRing = async (forgedBy: string) => {
   const forgedData = forgedBy.toLowerCase();
