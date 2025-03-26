@@ -19,7 +19,7 @@ function Carousel({ data }: CarouselProps) {
         {data.map((item: RingData) => (
           <div key={item.id}>
             <a href="#">
-              <img className="rounded-t-lg" src="/globe.svg" alt="Ring" />
+              <img className="rounded-t-lg" src={item.image} alt="Ring" />
             </a>
             <div className="p-5">
               <p className="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">{item.name}</p>
