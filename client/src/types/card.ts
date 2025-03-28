@@ -17,4 +17,5 @@ export interface RingData {
 export interface CarouselProps {
   data: RingData[];
   handleEdit: (item: RingData) => void,
+  handleDelete: (item: RingData) => void,
 }

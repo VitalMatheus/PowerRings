@@ -91,6 +91,20 @@ function Page() {
     });
   }
 
+  const handleDelete = async (item: RingData) => {
+    const { id } = item;
+    const confirmDelete = window.confirm('Tem certeza que deseja excluir este anel?');
+    if (!confirmDelete) return;
+
+    await fetch(`http://localhost:3001/${id}`, {
+      method: 'DELETE',
+    });
+
+    setData(prevData => prevData.filter(ring => ring.id !== id));
+
+    alert('Anel excluído com sucesso!');
+  }
+
   return (
     <div className="flex-col">
       <h1 className="text-4xl text-center my-10">Anéis do Poder</h1>
@@ -137,7 +151,7 @@ function Page() {
             <span className="text-gray-600">Carregando...</span>
           </div>
         ) : (
-          <Carousel data={data} handleEdit={handleEdit}/>
+          <Carousel data={data} handleEdit={handleEdit} handleDelete={handleDelete} />
         )}
       </div>
     </div>
