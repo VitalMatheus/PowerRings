@@ -10,7 +10,7 @@ const validateRing = async (forgedBy: string) => {
   if (!validForgers.includes(forgedData)) {
     return { error: 'Forjador Inválido' };
   }
-
+  
   const ringsCount = await Ring.count({ where: { forgedBy: forgedData } });
 
   let maxRings = 0;
@@ -49,16 +49,14 @@ export const createRing = async (req: Request, res: Response): Promise<any> => {
   try {
     const { name, power, carrier, forgedBy, image }: RingData = req.body;
 
-    try {
-      const isValid = await validateRing(forgedBy);
-      if (isValid?.error) {
-        return res.status(400).json(isValid?.error)
-      }
-    } catch (error) {
-      return res.status(400).json(error);
+    const isValid = await validateRing(forgedBy);
+    if (isValid?.error) {
+      return res.status(400).json(isValid?.error)
     }
+
+    const normalizedForgedBy = forgedBy.toLowerCase();
     
-    const newRing = await Ring.create({ name, power, carrier, forgedBy, image });
+    const newRing = await Ring.create({ name, power, carrier, forgedBy: normalizedForgedBy, image });
     
     return res.status(201).json(newRing);
   } catch (error) {
@@ -83,7 +81,6 @@ export const updateRing = async (req: Request, res: Response): Promise<any> => {
       return res.status(400).json(error);
     }
   
-
     await ring.update({ name, power, carrier, forgedBy, image })
     return res.status(201).json(ring);
   } catch (error) {
