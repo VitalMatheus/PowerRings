@@ -36,23 +36,60 @@ function Page() {
     });
   };
 
-
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     try {
-      await fetch("http://localhost:3001", {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(formData),
+
+      const existingRing = data.find(ring => ring.name.toLowerCase() === formData.name.toLowerCase());
+      let response;
+
+      if (existingRing) {
+        response = await fetch(`http://localhost:3001/${existingRing.id}`, {
+          method: 'PUT',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(formData),
+        });
+        
+        const updatedRing = await response.json();
+        setData(prevData => prevData.map(ring => 
+          ring.id === updatedRing.id ? updatedRing : ring
+        ));
+      } else {
+        response = await fetch("http://localhost:3001", {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(formData),
+        });
+  
+        if (!response.ok) throw new Error('Falha ao criar anel');
+  
+        const newRing = await response.json();
+        setData(prevData => [...prevData, newRing]);
+      }
+
+      setFormData({
+        name: '',
+        power: '',
+        carrier: '',
+        forgedBy: '',
+        image: '',
       });
 
     } catch (error) {
       console.log('this is error => ', error);
     }
   };
+
+  const handleEdit = (item: RingData) => {
+    setFormData({
+      ...item
+    });
+  }
 
   return (
     <div className="flex-col">
@@ -78,10 +115,10 @@ function Page() {
             <label htmlFor="forgedBy" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Forjador</label>
             <select name="forgedBy" id="forgedBy" value={formData.forgedBy} onChange={handleChange} className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required>
               <option value="">Selecione um forjador</option>
-              <option value="Elfos">Elfos</option>
-              <option value="Anões">Anões</option>
-              <option value="Homens">Homens</option>
-              <option value="Sauron">Sauron</option>
+              <option value="elfos">Elfos</option>
+              <option value="anões">Anões</option>
+              <option value="homens">Homens</option>
+              <option value="sauron">Sauron</option>
             </select>
           </div>
 
@@ -91,7 +128,7 @@ function Page() {
           </div>
 
           <div className="flex justify-around">
-            <button type="submit" className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Criar</button>
+            <button type="submit" className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Salvar</button>
           </div>
         </form>
 
@@ -100,7 +137,7 @@ function Page() {
             <span className="text-gray-600">Carregando...</span>
           </div>
         ) : (
-          <Carousel data={data} />
+          <Carousel data={data} handleEdit={handleEdit}/>
         )}
       </div>
     </div>
